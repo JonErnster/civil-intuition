@@ -31,7 +31,7 @@
 @media(max-width:760px){header{gap:10px}header .quiet{padding:8px;font-size:11px}.brand{gap:8px;font-size:10px;letter-spacing:1.5px}.mark{padding:7px}}
 
 .math-panel{border-top:1px solid var(--line);padding:20px 0 14px;margin-top:8px}
-.math-expression{font:clamp(21px,3vw,28px)/1.65 Georgia,serif;color:var(--ink);margin:12px 0;overflow-x:auto;padding:3px 0}
+.math-expression{font:clamp(21px,3vw,28px)/1.65 Georgia,serif;color:var(--ink);margin:12px 0;overflow-wrap:anywhere;padding:8px 0}
 .math-expression math{font-size:1em}
 .math-calculation{display:block;font:17px/1.8 Georgia,serif;color:var(--teal);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .math-boundary{font-size:11px;line-height:1.65;color:var(--muted);margin:10px 0 0}
