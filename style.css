@@ -29,3 +29,14 @@
 [data-theme=dark] .formula{background:#0e1d20;color:#f2cf91}
 [data-theme=dark] button:focus-visible,[data-theme=dark] a:focus-visible,[data-theme=dark] input:focus-visible,[data-theme=dark] select:focus-visible{outline-color:#f2c57c}
 @media(max-width:760px){header{gap:10px}header .quiet{padding:8px;font-size:11px}.brand{gap:8px;font-size:10px;letter-spacing:1.5px}.mark{padding:7px}}
+
+.math-panel{border-top:1px solid var(--line);padding:20px 0 14px;margin-top:8px}
+.math-expression{font:clamp(21px,3vw,28px)/1.65 Georgia,serif;color:var(--ink);margin:12px 0;overflow-x:auto;padding:3px 0}
+.math-expression math{font-size:1em}
+.math-calculation{display:block;font:17px/1.8 Georgia,serif;color:var(--teal);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.math-boundary{font-size:11px;line-height:1.65;color:var(--muted);margin:10px 0 0}
+.application{border-left:3px solid var(--gold);padding:3px 18px;margin:25px 0 30px}
+.application h3{font:22px/1.3 Georgia,serif;margin:10px 0}
+.application p{font-size:13px;color:var(--muted);margin-bottom:0}
+.formula{overflow-wrap:anywhere}
+@media(max-width:760px){.math-expression{font-size:21px}.math-calculation{font-size:16px}.application{padding-left:14px}}

@@ -24,16 +24,85 @@ const raw=[
 [4,'A queue has a memory',2,'queue','Vehicles arrive while a bottleneck serves a fixed number each minute.','For sustained arrivals above service capacity, the queue…',['Grows','Automatically clears','Must stay constant'],0,'Conservation gives queue growth when more vehicles enter than leave. Existing queues take time to clear after demand falls.','ΔN = (arrival rate − service rate)Δt','Deterministic one-minute time steps; service = 12 vehicles/min; empty initial queue.','exam'],
 [4,'Flow is not just speed',3,'traffic','Imagine cars spaced along a road. Density and speed jointly determine flow.','If density doubles and average speed halves, ideal flow…',['Doubles','Halves','Stays the same'],2,'Flow is the product of space-mean speed and density under compatible averaging. Congestion affects both, so speed alone is misleading.','q = kv','Homogeneous steady traffic; slider holds speed at 40 km/h. No capacity model.','exam'],
 [5,'The longest chain sets the pace',1,'schedule','Two independent paths must both finish before the project is done.','Shorten a noncritical path without changing the longest path. Project duration…',['Always falls','Stays the same','Always rises'],1,'The project finishes when its longest dependency path finishes. A shorter path may have float. Resource limits can complicate this.','Tproject = max(Tpath A, Tpath B)','Two parallel paths; path A fixed at 8 days; unlimited resources, no lags.','exam'],
-[5,'Production beats wishful thinking',1,'production','Add productive time while output per hour stays fixed.','Double effective working hours at fixed productivity. Ideal output…',['Doubles','Stays the same','Quadruples'],0,'Quantity equals productivity times effective time. Real crews face congestion, fatigue, setup and equipment limits.','Quantity = rate × effective time','Constant rate 12 units/hour, no resource interference. This is not a staffing forecast.','exam'],
+[5,'Production beats wishful thinking',1,'production','Add productive time while output per hour stays fixed.','Double effective working hours at fixed productivity. Ideal output…',['Doubles','Stays the same','Quadruples'],0,'Quantity equals productivity times effective time. Real crews face congestion, fatigue, setup and equipment limits.','Quantity = rate × effective time','Constant rate 12 m³/hour, no resource interference. This is not a staffing forecast.','exam'],
 [5,'Do not trust an unprotected cut',2,'trench','Look at the vertical cut, then think beyond its depth.','Which is the sound first move before entry?',['Rely on the drawing alone','Have the competent person assess hazards and protection','Assume dry soil cannot collapse'],1,'Water, surcharge, soil type and changing conditions matter. OSHA generally requires protective systems unless stable rock, or a cut under 5 ft is judged by a competent person to have no cave-in indication.','Hazard assessment → suitable protection → inspection','Concept only. No slope, shoring or entry clearance is designed here. Never use this app to authorize entry.','safety'],
 [5,'Check the dimensions',3,'production','An answer can look reasonable and still carry the wrong units.','Rate in m³/hour times hours yields…',['m³','m³/hour²','m/hour'],0,'Units are a fast error detector. Check dimensions, sign and limiting cases before trusting a calculation.','(m³/h) × h = m³','The explorer’s unit is illustrative; choose compatible units before multiplying.','exam']
 ];
+const applications=[
+['Bridge bearing reactions','A bridge engineer traces a moving maintenance load into the bearings. This 10 kN point-load model explains reaction sharing, not the complete bridge load combinations.'],
+['Bolted connection tightening','A technician estimates turning moment from a 100 N perpendicular force on a wrench. Lever arm is in metres and torque in N·m; actual bolt preload also depends on friction.'],
+['Crane outrigger mat','A 200 kN outrigger load spread over a mat gives average ground pressure in kPa. Soil bearing capacity, eccentricity and settlement still require separate checks.'],
+['Industrial platform load path','For a 10 kN equipment load, the platform support reactions must sum to 10 kN. Connections, columns and foundations must each continue that load path.'],
+['Floor-beam proportions','A designer compares rectangular beam depths before detailed sizing. The cubic I ratio is dimensionless; real deflection also depends on E, span and loading.'],
+['Pipe-rack serviceability','A longer simply supported pipe-rack beam can deflect sharply under a centred valve load. The deflection ratio shown is dimensionless and assumes unchanged P, E and I.'],
+['Temporary tower stability','Increasing the unsupported length of a slender tower leg reduces ideal Euler capacity. The displayed capacity ratio is not a code resistance or safe working load.'],
+['Equipment-support vibration planning','A stiff support and a strong support are not interchangeable. Section I controls geometric bending stiffness; σ = Eε describes material response only within its elastic range.'],
+['Foundation under a rising water table','At a soil point with 100 kPa total stress, rising pore pressure reduces skeleton stress. The displayed kPa values illustrate the mechanism, not a site groundwater model.'],
+['Embankment on soft clay','During consolidation, excess pore pressure dissipates and the skeleton takes more stress. The slider samples pressure states in kPa; settlement magnitude and time require soil data.'],
+['Drained retaining-wall backfill','Water pressure can reduce effective normal stress and frictional shear resistance. Here c′ = 0 and φ′ = 30° are illustrative; field strength must be measured.'],
+['Warehouse foundation serviceability','A larger footing reduces average pressure under a 200 kN column, but differential settlement may still affect floors and equipment. No settlement is predicted here.'],
+['Municipal water-main sizing','For a full pipe carrying 0.030 m³/s, diameter changes mean velocity in m/s. This is continuity; pump pressure and head require a separate energy balance.'],
+['Pump head for an industrial water line','A pump must supply elevation, pressure and velocity-head changes plus losses: z₁ + p₁/ρg + v₁²/2g + hp = z₂ + p₂/ρg + v₂²/2g + hf (minor losses omitted). The explorer isolates Darcy friction in metres of water.'],
+['Water tank wall pressure','A tank designer calculates gauge pressure at depth before integrating pressure over the wall area. Fresh-water pressure is in kPa; the resultant wall force is not calculated here.'],
+['Roadside drainage channel','An engineer estimates uniform flow in a 3 m wide channel using SI Manning, n = 0.03 and slope 0.001. Discharge is m³/s; inlet, backwater and hydraulic jumps need other models.'],
+['Roadway sight-distance screening','Reaction travel and braking distance are added in metres. This level-road demonstration assumes 2.5 s reaction and 3.4 m/s² deceleration, not adopted project design criteria.'],
+['Horizontal road-curve intuition','At a 100 m radius, increasing speed increases required lateral acceleration in m/s². Actual road design also checks banking, friction and the applicable standards.'],
+['Construction gate traffic','A gate serving 12 vehicles/min can develop a queue when deliveries arrive faster. The model starts empty and uses constant rates for five minutes.'],
+['Traffic-count interpretation','A stream moving at 40 km/h with density in vehicles/km yields vehicles/hour. This fixed-speed model is not a congestion or lane-capacity forecast.'],
+['Concrete pour readiness','Formwork and delivery preparation are two independent paths that must both finish. Path A takes eight days; project duration is the longer path, without resource conflicts.'],
+['Earthwork shift planning','At an illustrative 12 m³/h, effective working hours translate to excavated volume in m³. Equipment cycle times, bulking, haul delays and downtime are excluded.'],
+['Utility trench planning','Depth is shown in metres (and feet below), but depth alone never authorizes entry. A competent person must assess soil, water, surcharge and the protective system.'],
+['Quantity and cost estimating','An estimator checks that 12 m³/h multiplied by hours gives m³, before applying a price per m³. Compatible units are essential; bulking and shrinkage are not modelled.']
+];
+function formulaMarkup(c){
+ const frac=(a,b)=>'<mfrac><mrow>'+a+'</mrow><mrow>'+b+'</mrow></mfrac>';
+ const mi=t=>'<mi>'+t+'</mi>', mn=t=>'<mn>'+t+'</mn>', mo=t=>'<mo>'+t+'</mo>';
+ const pow=(a,n)=>'<msup>'+mi(a)+mn(n)+'</msup>';
+ const forms={
+ pipe:mi('v')+mo('=')+frac(mn(4)+mi('Q'),mi('π')+pow('D',2)),
+ bearing:mi('q')+mo('=')+frac(mi('P'),mi('A')),
+ section:mi('I')+mo('=')+frac(mi('b')+pow('h',3),mn(12)),
+ deflect:mi('δ')+mo('=')+frac(mi('P')+pow('L',3),mn(48)+mi('E')+mi('I')),
+ column:mi('Pcr')+mo('=')+frac(pow('π',2)+mi('E')+mi('I'),pow('KL',2)),
+ hydro:mi('p')+mo('=')+mi('ρ')+mi('g')+mi('h'),
+ curve:mi('a')+mo('=')+frac(pow('v',2),mi('R'))
+ };
+ if(c.id===7||!forms[c.kind])return c.formula;
+ return '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="'+c.formula+'">'+forms[c.kind]+'</math>';
+}
+function liveMath(x){
+ const c=cards[current],a=(30+x*24-50)/300,v=x*.3,d=.1+x*.04,speed=x*3,u=x*9;
+ let calc={
+ beam:'Rᴀ = '+(10*(1-a)).toFixed(2)+' kN; Rʙ = '+(10*a).toFixed(2)+' kN; ΣR = 10.00 kN',
+ lever:'M = 100 N × '+(x/10).toFixed(1)+' m = '+x*10+' N·m',
+ bearing:'q = 200 kN / '+x+' m² = '+(200/x).toFixed(2)+' kPa',
+ section:'I/I₁ = (h/h₁)³ = '+x+'³ = '+x**3,
+ deflect:'δ/δ₁ = (L/L₁)³ = '+x+'³ = '+x**3,
+ column:'Pcr/Pcr,₁ = 1/'+x+'² = '+(1/x**2).toFixed(4),
+ soil:'σ′ = 100 − '+u+' = '+(100-u)+' kPa',
+ pipe:'v = 4(0.030)/(π × '+d.toFixed(2)+'²) = '+(.12/(Math.PI*d*d)).toFixed(3)+' m/s',
+ loss:'hf = 0.02(100/0.30)('+v.toFixed(1)+'²/19.62) = '+(.02*100/.3*v*v/19.62).toFixed(3)+' m',
+ hydro:'p = (1000)(9.81)('+(.5*x).toFixed(1)+') = '+(4.905*x).toFixed(3)+' kPa',
+ road:'d = '+speed+'(2.5) + '+speed+'²/(2 × 3.4) = '+(speed*2.5+speed*speed/6.8).toFixed(1)+' m',
+ curve:'ac = '+speed+'²/100 = '+(speed**2/100).toFixed(2)+' m/s²',
+ queue:'N(5 min) = max[0, ('+(x*3)+' − 12) × 5] = '+Math.max(0,(x*3-12)*5)+' vehicles',
+ traffic:'q = '+(x*10)+' vehicles/km × 40 km/h = '+(x*400)+' vehicles/h',
+ schedule:'T = max(8, '+x+') = '+Math.max(8,x)+' days; B float = '+Math.max(0,8-x)+' days',
+ production:'V = 12 m³/h × '+x+' h = '+12*x+' m³',
+ trench:'Depth = '+(.3*x).toFixed(1)+' m ≈ '+(.3*x/0.3048).toFixed(2)+' ft; not a safety clearance'
+ }[c.kind];
+ if(c.kind==='channel'){const y=x*.2,A=3*y,R=A/(3+2*y);calc='A = '+A.toFixed(2)+' m²; Pw = '+(3+2*y).toFixed(2)+' m; R = '+R.toFixed(3)+' m; Q = '+((1/.03)*A*R**(2/3)*Math.sqrt(.001)).toFixed(3)+' m³/s'}
+ if(c.id===10)calc+='; τf = '+(100-u)+' tan(30°) = '+((100-u)/Math.sqrt(3)).toFixed(2)+' kPa (c′ = 0)';
+ if(c.id===7)calc+='; geometry varies, E and strength are not specified';
+ $('liveFormula').innerHTML=formulaMarkup(c);txt('liveCalculation',calc);txt('liveBoundary',c.assume);
+}
+
 const cards=raw.map((r,i)=>({id:i,module:r[0],title:r[1],level:r[2],kind:r[3],intro:r[4],q:r[5],options:r[6],correct:r[7],explain:r[8],formula:r[9],assume:r[10],source:SOURCES[r[11]]}));
 let learned=new Set(),current=0,mode='guide',answered=false;try{learned=new Set(JSON.parse(localStorage.getItem('ci-progress')||'[]').filter(i=>Number.isInteger(i)&&i>=0&&i<cards.length))}catch{};
 const $=id=>document.getElementById(id);const txt=(id,t)=>$(id).textContent=t;
 function save(){try{localStorage.setItem('ci-progress',JSON.stringify([...learned]))}catch{}txt('progresslabel',`${learned.size} / ${cards.length} ideas explored`);renderModules()}
 function renderModules(){$('modules').innerHTML=modules.map((m,i)=>`<button data-module="${i}" class="${cards[current].module===i?'active':''}"><span class="num">0${i+1}</span><span>${m}<small>${[...learned].filter(n=>cards[n].module===i).length}/4 explored</small></span></button>`).join('');document.querySelectorAll('[data-module]').forEach(b=>b.onclick=()=>{mode='guide';current=+b.dataset.module*4;render()})}
-function render(){const c=cards[current];answered=false;$('back').hidden=true;$('reveal').hidden=false;txt('feedback','');txt('topic',`${String(c.module+1).padStart(2,'0')} / ${modules[c.module]}`);txt('level',['','Warm-up','Field sense','Stretch'][c.level]);txt('title',c.title);txt('intro',c.intro);txt('question',c.q);txt('explanation',c.explain);txt('formula',c.formula);txt('assumption','Model boundary: '+c.assume);$('source').href=c.source;$('answers').innerHTML=c.options.map((o,i)=>`<button data-answer="${i}"><b>${String.fromCharCode(65+i)}</b><span>${o}</span></button>`).join('');document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>answer(+b.dataset.answer));$('randomControls').hidden=mode!=='random';$('guideMode').classList.toggle('active',mode==='guide');$('quizMode').classList.toggle('active',mode==='random');$('prev').disabled=mode==='guide'&&current===0;txt('next',mode==='random'?'Another idea ↻':current===cards.length-1?'Back to start ↻':'Next idea →');txt('position',mode==='guide'?`${current+1} / ${cards.length}`:'Random draw');$('slider').value=5;draw();save()}
+function render(){const c=cards[current];answered=false;$('back').hidden=true;$('reveal').hidden=false;txt('feedback','');txt('topic',`${String(c.module+1).padStart(2,'0')} / ${modules[c.module]}`);txt('level',['','Warm-up','Field sense','Stretch'][c.level]);txt('title',c.title);txt('intro',c.intro);txt('applicationTitle',applications[current][0]);txt('applicationText',applications[current][1]);txt('question',c.q);txt('explanation',c.explain);txt('formula',c.formula);txt('assumption','Model boundary: '+c.assume);$('source').href=c.source;$('answers').innerHTML=c.options.map((o,i)=>`<button data-answer="${i}"><b>${String.fromCharCode(65+i)}</b><span>${o}</span></button>`).join('');document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>answer(+b.dataset.answer));$('randomControls').hidden=mode!=='random';$('guideMode').classList.toggle('active',mode==='guide');$('quizMode').classList.toggle('active',mode==='random');$('prev').disabled=mode==='guide'&&current===0;txt('next',mode==='random'?'Another idea ↻':current===cards.length-1?'Back to start ↻':'Next idea →');txt('position',mode==='guide'?`${current+1} / ${cards.length}`:'Random draw');$('slider').value=5;draw();save()}
 function answer(n){if(answered)return;answered=true;document.querySelectorAll('[data-answer]').forEach(b=>{b.disabled=true;if(+b.dataset.answer===cards[current].correct)b.classList.add('correct');else if(+b.dataset.answer===n)b.classList.add('wrong')});txt('feedback',n===cards[current].correct?'Exactly. Now reveal why it works.':'A useful misconception to catch. The green answer is the best fit for this model.');}
 function reveal(){$('back').hidden=false;$('reveal').hidden=true;learned.add(current);save()}
 function random(){const lev=$('difficulty').value;let pool=cards.filter(c=>(lev==='all'||c.level==lev)&&c.id!==current);if(!pool.length)pool=cards;current=pool[Math.floor(Math.random()*pool.length)].id;mode='random';render()}
@@ -55,9 +124,9 @@ else if(k==='curve'){let v=x*3;shape=`<path d="M65 170 Q65 40 220 40H355" fill="
 else if(k==='queue'){let arrivals=x*3,n=Math.max(0,(arrivals-12)*5);shape=Array.from({length:Math.min(18,Math.ceil(n/5))},(_,i)=>rect(25+(i%9)*39,60+Math.floor(i/9)*35,30,20)).join('')+text(200,165,`Queue after 5 min: ${n} vehicles`);label='Arrivals';value=`${arrivals} vehicles/min`;reading='Service 12 vehicles/min. Each icon represents up to five queued vehicles.'}
 else if(k==='traffic'){let density=x*10;shape=rect(20,65,360,55,'#d4ded4')+Array.from({length:x},(_,i)=>rect(30+i*34,80,24,18,'var(--diagram-line)')).join('')+text(200,165,`q = ${density*40} vehicles/hour`);label='Density';value=`${density} vehicles/km`;reading='Speed artificially fixed at 40 km/h; no congestion feedback modeled.'}
 else if(k==='schedule'){shape=rect(50,55,8*25,24)+rect(50,105,x*25,24,'#d5ac68')+text(30,72,'A')+text(30,122,'B')+text(200,170,`Project: ${Math.max(8,x)} days`);label='Path B duration';value=`${x} days`;reading='Path A takes 8 days. Both independent paths must finish.'}
-else if(k==='production'){shape=Array.from({length:x},(_,i)=>rect(35+i*33,145-i*8,23,20+i*8)).join('')+text(200,177,`Output = ${12*x} units`);label='Effective hours';value=`${x} h`;reading='Fixed production rate: 12 units/hour. No losses or interference.'}
+else if(k==='production'){shape=Array.from({length:x},(_,i)=>rect(35+i*33,145-i*8,23,20+i*8)).join('')+text(200,177,`Output = ${12*x} m³`);label='Effective hours';value=`${x} h`;reading='Fixed production rate: 12 m³/hour. No losses or interference.'}
 else if(k==='trench'){let h=30+x*10;shape=`<path d="M20 40H135V${40+h}H265V40H380V185H20Z" fill="#d6c6a4"/>`+text(200,28,'SCHEMATIC ONLY')+text(200,180,`${(x*.3).toFixed(1)} m deep`);label='Illustrated depth';value=`${(x*.3).toFixed(1)} m`;reading='No safe/unsafe classification from depth alone. Competent-person assessment required.'}
-$('diagram').innerHTML=`<svg viewBox="0 0 400 195" role="img" aria-label="${cards[current].title} interactive schematic">${shape}</svg>`;txt('sliderlabel',label);txt('value',value);txt('reading',reading)}
+$('diagram').innerHTML=`<svg viewBox="0 0 400 195" role="img" aria-label="${cards[current].title} interactive schematic">${shape}</svg>`;txt('sliderlabel',label);txt('value',value);txt('reading',reading);liveMath(x)}
 render();
 
 
